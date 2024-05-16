@@ -1,0 +1,141 @@
+2.1 API Endpoints
+    Base URL: http://localhost:3000/api
+
+    *  Test Home
+        Endpoint: GET /
+        Response:
+        {
+            "message": "Welcome to my Task Manager!",
+        }
+
+    * Register User
+        Endpoint: POST /auth/register
+        Body:
+        {
+            "email": "user@example.com",
+            "firstname": "First",
+            "lastname": "Last",
+            "password": "password123"
+        }
+
+        Response:
+        {
+            "message": "User registered successfully",
+            "user": {
+                "uid": "userUid",
+                "email": "user@example.com",
+                "displayName": "First Last"
+            }
+        }
+
+    * Login User
+        Endpoint: POST /auth/login
+        Body:
+        {
+            "email": "user@example.com",
+            "password": "password123"
+        }
+
+        Response:
+        {
+            "token": "jwt_token"
+        }
+
+
+
+    1. Create Task
+        Endpoint: POST /tasks
+        Headers: Authorization: Bearer <token>
+        Body:
+        {
+            "title": "My First Task",
+            "description": "My First Task Description",
+            "completed": false
+        }
+        Response:
+        {
+            "id": "taskId",
+            "title": "Task Title",
+            "description": "Task Description",
+            "userId": "userId",
+            "completed": false
+        }
+
+
+    2. Get User Tasks
+        Endpoint: GET /tasks
+        Headers: Authorization: Bearer <token>
+        Response:
+        [
+            {
+                "id": "taskId",
+                "title": "Task Title",
+                "description": "Task Description",
+                "userId": "userId",
+                "completed": false
+            }
+        ]
+
+
+    3. Get Task by ID
+        Endpoint: GET /tasks/:id
+        Headers: Authorization: Bearer <token>
+        Response:
+        {
+            "id": "taskId",
+            "title": "Task Title",
+            "description": "Task Description",
+            "userId": "userId",
+            "completed": false
+        }
+
+
+    4. Update Task
+        Endpoint: PUT /tasks/:id
+        Headers: Authorization: Bearer <token>
+        Body:
+        {
+            "title": "Updated Task Title",
+            "description": "Updated Task Description",
+            "completed": true
+        }
+
+        Response:
+        {
+            "message": "Task updated successfully."
+        }
+
+
+    5. Delete Task
+        Endpoint: DELETE /tasks/:id
+        Headers: Authorization: Bearer <token>
+        Response:
+        {
+            "message": "Task deleted successfully."
+        }
+
+
+
+2.2 Data Models
+    Task:
+    export interface Task {
+        id?: string;
+        title: string;
+        description: string;
+        userId: string;
+        completed: boolean;
+    }
+
+2.3 Other Relevant Information
+    1.  JWT Authentication
+        - Use JWT tokens for user authentication.
+        - Include the token in the Authorization header as Bearer <token> for all authenticated endpoints.
+    
+    2.  Input Validation
+        - DTO classes ensure that the input data is valid.
+        - Use decorators like @IsString(), @IsNotEmpty(), @IsBoolean(), and @IsOptional() for input validation.
+
+
+3. Environment Variables
+    - Create a .env file in the project root with the following:
+    JWT_SECRET=augustus_secret_key
