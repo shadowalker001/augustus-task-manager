@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -7,18 +7,19 @@ import { LoginDto } from './dto/login.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  // Endpoint for user registration
   @Post('register')
-  // async register(@Body(new ValidationPipe()) registerDto: RegisterDto): Promise<any> {
-  async register(@Body() registerDto: RegisterDto): Promise<any> {
+  async register(@Body(new ValidationPipe()) registerDto: RegisterDto): Promise<any> {
     try {
       return await this.authService.registerUser(registerDto);
     } catch (error) {
-      throw new HttpException('Registration failed', HttpStatus.BAD_REQUEST);
+      throw new HttpException(`Registration failed, ${error.message??''}`, HttpStatus.BAD_REQUEST);
     }
   }
 
+  // Endpoint for user login
   @Post('login')
-  async login(@Body() loginDto: LoginDto): Promise<any> {
+  async login(@Body(new ValidationPipe()) loginDto: LoginDto): Promise<any> {
     try {
       const result = await this.authService.loginUser(loginDto);
       if (!result) {
@@ -26,7 +27,7 @@ export class AuthController {
       }
       return result;
     } catch (error) {
-      throw new HttpException('Login failed', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(`Login failed, Invalid email or password`, HttpStatus.UNAUTHORIZED);
     }
   }
 }

@@ -5,7 +5,7 @@
         Endpoint: GET /
         Response:
         {
-            "message": "Welcome to my Task Manager!",
+            "message": "Welcome to Augustus Task Manager!",
         }
 
     * Register User
@@ -15,16 +15,18 @@
             "email": "user@example.com",
             "firstname": "First",
             "lastname": "Last",
-            "password": "password123"
+            "password": "password"
         }
 
         Response:
         {
             "message": "User registered successfully",
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpZCI6Ijh2aFRlVTFvemVXa1lXRWJLZWJpT1dDREZIbjEiLCJmaXJzdG5hbWUiOiJGaXJzdCIsImxhc3RuYW1lIjoiTGFzdCIsImlhdCI6MTcxNTkwMzE3NywiZXhwIjoxNzE1OTg5NTc3fQ.h0BQoY2S8DE-p9FAEnVzmdyc2LUord9fNGIFr3nfESI",
             "user": {
-                "uid": "userUid",
                 "email": "user@example.com",
-                "displayName": "First Last"
+                "id": "8vhTeU1ozeWkYWEbKebiOWCDFHn1",
+                "firstname": "First",
+                "lastname": "Last"
             }
         }
 
@@ -38,7 +40,13 @@
 
         Response:
         {
-            "token": "jwt_token"
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdG5hbWUiOiJGaXJzdCIsImlkIjoiQ2VHWWdSZmJKQ1d6UzdjdFVvQzhJUGpRck1vMSIsImVtYWlsIjoidXNlckBleGFtcGxlLmNvbSIsImxhc3RuYW1lIjoiTGFzdCIsImlhdCI6MTcxNTkwNDAzMywiZXhwIjoxNzE1OTkwNDMzfQ.cf5N_WCLXeHzBS89I0i7b9-azlEOHgKTbVlGTLjfEHA",
+            "user": {
+                "firstname": "First",
+                "id": "CeGYgRfbJCWzS7ctUoC8IPjQrMo1",
+                "email": "user@example.com",
+                "lastname": "Last"
+            }
         }
 
 
@@ -54,11 +62,11 @@
         }
         Response:
         {
-            "id": "taskId",
-            "title": "Task Title",
-            "description": "Task Description",
-            "userId": "userId",
-            "completed": false
+            "id": "hMkmMw8CWvzeQC7AMfRJ",
+            "title": "My First Task",
+            "description": "My First Task Description",
+            "completed": false,
+            "userId": "CeGYgRfbJCWzS7ctUoC8IPjQrMo1"
         }
 
 
@@ -68,11 +76,11 @@
         Response:
         [
             {
-                "id": "taskId",
-                "title": "Task Title",
-                "description": "Task Description",
-                "userId": "userId",
-                "completed": false
+                "id": "hMkmMw8CWvzeQC7AMfRJ",
+                "description": "My First Task Description",
+                "completed": false,
+                "title": "My First Task",
+                "userId": "CeGYgRfbJCWzS7ctUoC8IPjQrMo1"
             }
         ]
 
@@ -82,11 +90,11 @@
         Headers: Authorization: Bearer <token>
         Response:
         {
-            "id": "taskId",
-            "title": "Task Title",
-            "description": "Task Description",
-            "userId": "userId",
-            "completed": false
+            "id": "hMkmMw8CWvzeQC7AMfRJ",
+            "description": "My First Task Description",
+            "completed": false,
+            "title": "My First Task",
+            "userId": "CeGYgRfbJCWzS7ctUoC8IPjQrMo1"
         }
 
 
@@ -95,8 +103,8 @@
         Headers: Authorization: Bearer <token>
         Body:
         {
-            "title": "Updated Task Title",
-            "description": "Updated Task Description",
+            "title": "Updated My First Task",
+            "description": "Updated My First Task Description",
             "completed": true
         }
 
@@ -117,6 +125,15 @@
 
 
 2.2 Data Models
+    User:
+    export interface User {
+        id: string;
+        firstname: string;
+        lastname: string;
+        email: string;
+        password: string;
+    }
+
     Task:
     export interface Task {
         id?: string;
@@ -128,7 +145,7 @@
 
 2.3 Other Relevant Information
     1.  JWT Authentication
-        - Use JWT tokens for user authentication.
+        - Used JWT tokens for user authentication.
         - Include the token in the Authorization header as Bearer <token> for all authenticated endpoints.
     
     2.  Input Validation

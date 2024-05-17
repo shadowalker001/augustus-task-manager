@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 
-
+// Load Firebase service account credentials
 var serviceAccount = require("../../serviceAccountKey.json");
-// import serviceAccount from '../../serviceAccountKey.json';
-// const serviceAccount = require('../../serviceAccountKey.json');
 
+// Initialize Firebase Admin SDK
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-const db = admin.firestore();
-
 @Injectable()
 export class FirebaseService {
-  public db = db;
+  // Firestore database instance
+  public db = admin.firestore();
+  
+  // Firebase Authentication instance
   public auth = admin.auth();
 }
